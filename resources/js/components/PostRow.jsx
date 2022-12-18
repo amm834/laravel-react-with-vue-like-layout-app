@@ -1,3 +1,5 @@
+import React from "react";
+
 const PostRow = ({post}) => {
     return (
         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
