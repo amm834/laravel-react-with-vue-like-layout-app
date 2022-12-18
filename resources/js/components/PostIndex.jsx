@@ -30,40 +30,37 @@ const PostIndex = () => {
 
 
     return (
-        <div className="overflow-x-auto relative">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" className="py-3 px-6">
-                        ID
-                    </th>
-                    <th scope="col" className="py-3 px-6">
-                        Title
-                    </th>
-                    <th scope="col" className="py-3 px-6">
-                        Content
-                    </th>
-                    <th scope="col" className="py-3 px-6">
-                        Created At
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {posts.data.map(post => <PostRow key={post.id} post={post}/>)}
-                </tbody>
-            </table>
-
-
-            <div className="mt-4">
-                <Paginator
-                    meta={posts.meta}
-                    onPaginateButtonClick={onPaginateButtonClick}
-                />
+        <>
+            <div className="mb-6 overflow-x-auto relative">
+                <table className="w-full text-sm text-left text-gray-500  dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" className="py-3 px-6">
+                            ID
+                        </th>
+                        <th scope="col" className="py-3 px-6">
+                            Title
+                        </th>
+                        <th scope="col" className="py-3 px-6">
+                            Content
+                        </th>
+                        <th scope="col" className="py-3 px-6">
+                            Created At
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {posts.data.map(post => <PostRow key={post.id} post={post}/>)}
+                    </tbody>
+                </table>
             </div>
 
 
-        </div>
-
+            <Paginator
+                meta={posts.meta}
+                onPaginateButtonClick={onPaginateButtonClick}
+            />
+        </>
     );
 };
 
