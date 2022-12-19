@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import PostRow from "./PostRow";
-import Paginator from "./Paginator";
-import CategoryFilter from "./CategoryFilter";
+import PostRow from "../PostRow";
+import Paginator from "../Paginator";
+import CategoryFilter from "../CategoryFilter";
 
 
 const PostIndex = () => {
