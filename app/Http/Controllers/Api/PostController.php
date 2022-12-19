@@ -87,8 +87,9 @@ class PostController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return \response()->noContent();
     }
 }

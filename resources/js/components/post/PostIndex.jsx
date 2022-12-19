@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import PostRow from "../PostRow";
 import Paginator from "../Paginator";
 import CategoryFilter from "../CategoryFilter";
-
+import swal from 'sweetalert'
 
 const PostIndex = () => {
 
@@ -43,6 +43,35 @@ const PostIndex = () => {
         let direction = query.direction === 'desc' ? 'asc' : 'desc'
         query.direction = direction
         fetchPosts()
+    }
+
+    function onPostDelete(id) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+
+                    axios.delete(`/api/posts/${id}`)
+                        .then(res => {
+                            fetchPosts()
+                        })
+
+                    return swal("Poof! Your post has been deleted!", {
+                        icon: "success",
+                    });
+                } else {
+                    return swal("Your post file is safe!");
+                }
+            });
+    }
+
+    function onPostEdit() {
+
     }
 
     if (!posts.data) return
@@ -88,10 +117,17 @@ const PostIndex = () => {
                         <th scope="col" className="py-3 px-6">
                             Created At
                         </th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    {posts.data.map(post => <PostRow key={post.id} post={post}/>)}
+                    {posts.data.map(post => <PostRow
+                        key={post.id}
+                        post={post}
+                        onPostDelete={onPostDelete}
+                        onPostEdit={onPostEdit}
+                    />)}
                     </tbody>
                 </table>
             </div>
