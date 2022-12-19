@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {getAllCategories} from "../../services/category";
-import {useNavigate} from "react-router-dom";
+import {Form, useNavigate} from "react-router-dom";
 import clsx from "clsx";
 
 const CreatePost = () => {
@@ -12,6 +12,7 @@ const CreatePost = () => {
         title: '',
         category_id: '',
         content: '',
+        image: '',
     });
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
@@ -33,12 +34,25 @@ const CreatePost = () => {
         post.content = event.target.value
     }
 
+
+    const onImageChange = (event) => {
+        post.image = event.target.files[0]
+    };
+
     const onSubmit = (event) => {
         event.preventDefault()
+
         if (isLoading) return
 
+        const formData = new FormData();
+
+        _.forEach(post, (value, key) => {
+            formData.append(key, value)
+        })
+
+
         setIsLoading(true)
-        axios.post('/api/posts', post)
+        axios.post('/api/posts', formData)
             .then((res) => {
                 navigate('/')
             })
@@ -73,6 +87,16 @@ const CreatePost = () => {
                     {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
                 </select>
                 {errorMessageOf('category_id')}
+            </div>
+
+            <div className="mb-8">
+
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload
+                    file</label>
+                <input
+                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    onChange={onImageChange}
+                    aria-describedby="file_input_help" id="file_input" type="file"/>
 
             </div>
 
