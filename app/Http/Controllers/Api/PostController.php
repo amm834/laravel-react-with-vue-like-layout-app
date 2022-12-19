@@ -64,21 +64,23 @@ class PostController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show(Post $post,)
     {
-        //
+        return new PostResource($post);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return Response
+     * @param PostRequest $request
+     * @param Post $post
+     * @return PostResource
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+
+        return new PostResource($post);
     }
 
     /**
