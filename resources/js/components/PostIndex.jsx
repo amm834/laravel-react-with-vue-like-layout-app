@@ -31,6 +31,7 @@ const PostIndex = () => {
 
     const onCategoryFilterChange = (event) => {
         const category_id = event.target.value
+        query.page = 1
         query.category_id = category_id;
         fetchPosts()
     }
