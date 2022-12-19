@@ -48,4 +48,12 @@ class AuthController extends Controller
             'token' => 'Success'
         ]);
     }
+
+    public function logout()
+    {
+        // delete all user token
+        auth()->user()->tokens()->delete();
+
+        return response('', 204);
+    }
 }
