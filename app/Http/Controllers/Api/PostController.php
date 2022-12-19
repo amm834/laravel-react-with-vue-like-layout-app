@@ -40,6 +40,15 @@ class PostController extends Controller
                     return $collection->where($column, 'like', '%' . $value . '%');
                 }
             })
+            ->when($request->filled('search'), function ($collection) use ($filterable, $request) {
+                foreach ($filterable as $column) {
+                    if ($column === $filterable[0]) {
+                        $collection->where($column, 'like', "%{$request->search}%");
+                    } else {
+                        $collection->orWhere($column, 'like', "%{$request->search}%");
+                    }
+                }
+            })
             ->when($request->filled('category_id'), function ($collection) use ($request) {
                 return $collection->where('category_id', $request->category_id);
             })

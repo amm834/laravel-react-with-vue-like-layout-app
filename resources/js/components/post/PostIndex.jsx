@@ -3,6 +3,7 @@ import PostRow from "../PostRow";
 import Paginator from "../Paginator";
 import CategoryFilter from "../CategoryFilter";
 import swal from 'sweetalert'
+import Search from "../Search";
 
 const PostIndex = () => {
 
@@ -12,6 +13,7 @@ const PostIndex = () => {
         category_id: '',
         column: 'id',
         direction: 'desc',
+        search: '',
     })
     const fetchPosts = () => {
         axios.get('/api/posts', {
@@ -70,15 +72,27 @@ const PostIndex = () => {
             });
     }
 
-    function onPostEdit() {
+    // searching
+    function onSearchTermChange(event) {
+        const search_term = event.target.value
+        query.search = search_term
+        fetchPosts()
+    }
 
+    function onSearchFormSubmit(event) {
+        event.preventDefault()
     }
 
     if (!posts.data) return
 
     return (
         <>
-            <div className="mb-6  overflow-x-auto relative">
+            <div className="mb-6  overflow-x-auto">
+                <Search
+                    onSearchFormSubmit={onSearchFormSubmit}
+                    onSearchTermChange={onSearchTermChange}
+                />
+
                 <CategoryFilter onCategoryFilterChange={onCategoryFilterChange}/>
 
                 <table className="w-full text-sm text-left text-gray-500  dark:text-gray-400">
@@ -126,7 +140,6 @@ const PostIndex = () => {
                         key={post.id}
                         post={post}
                         onPostDelete={onPostDelete}
-                        onPostEdit={onPostEdit}
                     />)}
                     </tbody>
                 </table>
