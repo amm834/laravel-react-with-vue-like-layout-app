@@ -18,6 +18,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+
         $columnName = $request->input('column', 'id');
         $orderDirection = $request->input('direction', 'desc');
 
@@ -29,7 +30,16 @@ class PostController extends Controller
             $orderDirection = 'desc';
         }
 
+        $filterable = ['id', 'title', 'content'];
+        $filterableValues = array_filter($request->only(...$filterable));
+
+
         $posts = Post::with('category')
+            ->when(count($filterableValues), function ($collection) use ($filterableValues) {
+                foreach ($filterableValues as $column => $value) {
+                    return $collection->where($column, 'like', '%' . $value . '%');
+                }
+            })
             ->when($request->filled('category_id'), function ($collection) use ($request) {
                 return $collection->where('category_id', $request->category_id);
             })
