@@ -5,6 +5,7 @@ import CategoryFilter from "../CategoryFilter";
 import swal from 'sweetalert'
 import Search from "../Search";
 
+
 const PostIndex = () => {
 
     const [posts, setPosts] = useState([]);
@@ -22,6 +23,9 @@ const PostIndex = () => {
             .then(res => setPosts(res.data))
     }
 
+    const debounceFetchPost = _.debounce(fetchPosts, 400)
+
+
     useEffect(() => {
         fetchPosts()
     }, [])
@@ -37,14 +41,14 @@ const PostIndex = () => {
         const category_id = event.target.value
         query.page = 1
         query.category_id = category_id;
-        fetchPosts()
+        debounceFetchPost()
     }
 
     const orderPostBy = (column) => {
         query.column = column
         let direction = query.direction === 'desc' ? 'asc' : 'desc'
         query.direction = direction
-        fetchPosts()
+        debounceFetchPost()
     }
 
     function onPostDelete(id) {
@@ -60,7 +64,7 @@ const PostIndex = () => {
 
                     axios.delete(`/api/posts/${id}`)
                         .then(res => {
-                            fetchPosts()
+                            debounceFetchPost()
                         })
 
                     return swal("Poof! Your post has been deleted!", {
@@ -76,12 +80,9 @@ const PostIndex = () => {
     function onSearchTermChange(event) {
         const search_term = event.target.value
         query.search = search_term
-        fetchPosts()
+        debounceFetchPost()
     }
 
-    function onSearchFormSubmit(event) {
-        event.preventDefault()
-    }
 
     if (!posts.data) return
 
@@ -89,7 +90,6 @@ const PostIndex = () => {
         <>
             <div className="mb-6  overflow-x-auto">
                 <Search
-                    onSearchFormSubmit={onSearchFormSubmit}
                     onSearchTermChange={onSearchTermChange}
                 />
 
