@@ -16,10 +16,22 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        $columnName = $request->input('column', 'id');
+        $orderDirection = $request->input('direction', 'desc');
+
+        if (!in_array($columnName, ['id', 'title'])) {
+            $columnName = 'id';
+        }
+
+        if (!in_array($orderDirection, ['asc', 'desc'])) {
+            $orderDirection = 'desc';
+        }
+
         $posts = Post::with('category')
             ->when($request->filled('category_id'), function ($collection) use ($request) {
                 return $collection->where('category_id', $request->category_id);
             })
+            ->orderBy($columnName, $orderDirection)
             ->paginate(10);
 
         return PostResource::collection($posts);
