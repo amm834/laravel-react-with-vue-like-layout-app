@@ -3,26 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostResource;
-use App\Models\Post;
+use App\Http\Resources\CategoryResource;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $posts = Post::with('category')
-            ->when($request->filled('category_id'), function ($collection) use ($request) {
-                return $collection->where('category_id', $request->category_id);
-            })
-            ->paginate(10);
-
-        return PostResource::collection($posts);
+        return CategoryResource::collection(Category::all());
     }
 
     /**
