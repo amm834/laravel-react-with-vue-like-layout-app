@@ -7,6 +7,7 @@ import MainLayout from "./components/MainLayout";
 import PostIndex from "./components/post/PostIndex";
 import AuthLayout from "./components/AuthLayout";
 import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 
 createRoot(document.getElementById('app'))
     .render(
@@ -20,6 +21,9 @@ createRoot(document.getElementById('app'))
                     </Route>
                     <Route path="/login" element={<AuthLayout/>}>
                         <Route index element={<Login/>}/>
+                    </Route>
+                    <Route path="/register" element={<AuthLayout/>}>
+                        <Route index element={<Register/>}/>
                     </Route>
                     <Route
                         path="*"
