@@ -16,6 +16,11 @@ const Login = () => {
 
         axios.post('/api/login', user)
             .then(res => {
+                if (!res?.data?.data?.token) {
+                    return navigate('/login')
+                }
+
+                localStorage.setItem('token', res.data?.data?.token)
                 navigate('/')
             })
             .catch(error => {
