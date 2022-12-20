@@ -6,7 +6,14 @@ const MainLayout = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('/api/user')
+        const token = localStorage.getItem('token')
+        
+        axios.get('/api/user', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then()
             .catch(error => {
                 if (error.response.status === 401) {
