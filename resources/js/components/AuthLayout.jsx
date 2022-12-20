@@ -5,7 +5,7 @@ import Nav from "./Nav";
 const MainLayout = () => {
     return (
         <>
-            <main className="relative mt-20 container mx-auto max-w-6xl py-6">
+            <main className="container mx-auto">
                 <Outlet/>
             </main>
         </>
